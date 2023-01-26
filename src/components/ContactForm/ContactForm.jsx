@@ -5,7 +5,7 @@ import { capitalizeFirstLetters } from '../Utils/capitalizeFirstLetters';
 import { Form, Label, Input, AddContactButton } from './ContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+// import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
@@ -29,38 +29,40 @@ export const ContactForm = () => {
     );
   };
 
-  const onSubmit = event => {
-    event.preventDefault();
+  // const onSubmit = event => {
+  //   event.preventDefault();
 
-    const data = new FormData(event.target);
+  //   const data = new FormData(event.target);
 
-    const formObject = Object.fromEntries(data.entries());
+  //   const formObject = Object.fromEntries(data.entries());
 
-    const { name: inputName, number: inputNumber } = formObject;
+  //   const { name: inputName, number: inputNumber } = formObject;
 
-    const capitalName = capitalizeFirstLetters(inputName);
+  //   const capitalName = capitalizeFirstLetters(inputName);
 
-    if (checkTheSameName(inputName)) {
-      alert(`Sorry, ${capitalName} has already added!`);
-      return;
-    }
+  //   if (checkTheSameName(inputName)) {
+  //     alert(`Sorry, ${capitalName} has already added!`);
+  //     return;
+  //   }
 
-    dispatch(
-      addContact({ name: capitalName, number: inputNumber, id: nanoid() })
-    );
+  //   dispatch(
+  //     addContact({ name: capitalName, number: inputNumber, id: nanoid() })
+  //   );
 
-    // setName(inputName);
-    // setNumber(inputNumber);
+  //   // setName(inputName);
+  //   // setNumber(inputNumber);
 
-    event.currentTarget.reset();
-  };
+  //   event.currentTarget.reset();
+  // };
 
   // const onInputChange = event => {
   //   const { name: nameItem, number: numberItem } = event.target;
   // };
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form
+    // onSubmit={onSubmit}
+    >
       <Label>
         Name
         <Input

@@ -3,27 +3,46 @@
 import { ContactListItem } from './ContactListItem/ContactListItem';
 
 import { ContactsList, ContactsMessage } from './ContactList.styled';
-import { useSelector } from 'react-redux';
+import { Loader } from 'components/Loader/Loader';
 
-import { getContacts, getFilter } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
+import { getContacts, getFilter, getStatus } from 'redux/selectors';
+import { contactsAsyncThunk } from 'redux/contactsOperations';
 
 export function ContactList() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const status = useSelector(getStatus);
+
+  useEffect(() => {
+    dispatch(contactsAsyncThunk);
+  }, [dispatch]);
+
   // const { contacts, onContactDelete } = props;
 
   //   console.log(onContactDelete);
 
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+  // const contacts = useSelector(getContacts);
+  // const filter = useSelector(getFilter);
 
-  console.log(contacts);
+  console.log(status);
 
-  const selectedContacts = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(filter)
-  );
+  // const selectedContacts = contacts.filter(({ name }) =>
+  //   name.toLowerCase().includes(filter)
+  // );
 
   return (
     <ContactsList>
-      {selectedContacts.length ? (
+      {contacts?.map(contact => (
+        <ContactListItem
+          key={contact.id}
+          contactInfo={contact}
+          // onContactDelete={onContactDelete}
+        />
+      ))}
+      {/* {selectedContacts.length ? (
         (selectedContacts ?? contacts).map(contact => (
           <ContactListItem
             key={contact.id}
@@ -33,7 +52,7 @@ export function ContactList() {
         ))
       ) : (
         <ContactsMessage>We found nothing here:(</ContactsMessage>
-      )}
+      )} */}
     </ContactsList>
   );
 }

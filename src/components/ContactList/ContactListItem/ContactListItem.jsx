@@ -8,7 +8,7 @@ import {
   RemoveContactButton,
 } from './ContactListItem.styled';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+// import { deleteContact } from 'redux/contactsSlice';
 
 export function ContactListItem(props) {
   //   console.log(props.contactInfo.name);
@@ -16,11 +16,11 @@ export function ContactListItem(props) {
   const dispatch = useDispatch();
 
   const {
-    contactInfo: { name, number, id },
+    contactInfo: { name, phone, id },
     // onContactDelete,
   } = props;
 
-  const handleDelete = () => dispatch(deleteContact(id));
+  // const handleDelete = () => dispatch(deleteContact(id));
 
   const capitalName = capitalizeFirstLetters(name);
 
@@ -28,9 +28,12 @@ export function ContactListItem(props) {
     <ListItem>
       <Icon />
       <ContactText>
-        {capitalName}: {number}
+        {capitalName}: {phone}
       </ContactText>
-      <RemoveContactButton type="button" onClick={handleDelete}>
+      <RemoveContactButton
+        type="button"
+        // onClick={handleDelete}
+      >
         Remove
       </RemoveContactButton>
     </ListItem>
@@ -40,7 +43,7 @@ export function ContactListItem(props) {
 ContactListItem.propTypes = {
   contactInfo: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
 };
