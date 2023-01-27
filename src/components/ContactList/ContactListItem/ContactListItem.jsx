@@ -7,11 +7,12 @@ import {
   ContactText,
   RemoveContactButton,
 } from './ContactListItem.styled';
-import { useDispatch } from 'react-redux';
-// import { deleteContact } from 'redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStatus } from 'redux/selectors';
+import { deleteContactAsyncThunk } from 'redux/contactsOperations';
 
 export function ContactListItem(props) {
-  //   console.log(props.contactInfo.name);
+  const state = useSelector(getStatus);
 
   const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ export function ContactListItem(props) {
     // onContactDelete,
   } = props;
 
-  // const handleDelete = () => dispatch(deleteContact(id));
+  const handleDelete = () => dispatch(deleteContactAsyncThunk(id));
 
   const capitalName = capitalizeFirstLetters(name);
 
@@ -30,10 +31,7 @@ export function ContactListItem(props) {
       <ContactText>
         {capitalName}: {phone}
       </ContactText>
-      <RemoveContactButton
-        type="button"
-        // onClick={handleDelete}
-      >
+      <RemoveContactButton type="button" onClick={handleDelete}>
         Remove
       </RemoveContactButton>
     </ListItem>

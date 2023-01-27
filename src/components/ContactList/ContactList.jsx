@@ -14,35 +14,74 @@ import { contactsAsyncThunk } from 'redux/contactsOperations';
 export function ContactList() {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
-  const status = useSelector(getStatus);
+  const state = useSelector(getStatus);
+  const filter = useSelector(getFilter);
 
   useEffect(() => {
-    dispatch(contactsAsyncThunk);
+    dispatch(contactsAsyncThunk());
   }, [dispatch]);
 
   // const { contacts, onContactDelete } = props;
 
-  //   console.log(onContactDelete);
+  console.log(filter);
 
   // const contacts = useSelector(getContacts);
   // const filter = useSelector(getFilter);
 
-  console.log(status);
+  // console.log(state === 'loading');
 
-  // const selectedContacts = contacts.filter(({ name }) =>
-  //   name.toLowerCase().includes(filter)
-  // );
+  // const selectedContacts = (() => {
+  //   if (!contacts) return;
+
+  //   return contacts.filter(({ name }) =>
+  //     // console.log(name.toLowerCase().includes(filter))
+  //     name.toLowerCase().includes(filter)
+  //   );
+  // })();
+
+  // console.log(contacts);
 
   return (
-    <ContactsList>
-      {contacts?.map(contact => (
-        <ContactListItem
-          key={contact.id}
-          contactInfo={contact}
-          // onContactDelete={onContactDelete}
-        />
-      ))}
-      {/* {selectedContacts.length ? (
+    <>
+      <ContactsList>
+        {state === 'idle' && (
+          // || state === 'loading'
+          <Loader />
+        )}
+
+        {/* {selectedContacts?.length ? (
+          (selectedContacts ?? contacts).map(contact => (
+            <ContactListItem
+              key={contact.id}
+              contactInfo={contact}
+              // onContactDelete={onContactDelete}
+            />
+          ))
+        ) : filter ? (
+          <ContactsMessage>We found nothing here:(</ContactsMessage>
+        ) : state === 'loading' ? (
+          <Loader />
+        ) : (
+          <ContactsMessage>Empty phonebook</ContactsMessage>
+        )} */}
+
+        {contacts?.length ? (
+          contacts.map(contact => (
+            <ContactListItem
+              key={contact.id}
+              contactInfo={contact}
+              // onContactDelete={onContactDelete}
+            />
+          ))
+        ) : (
+          <ContactsMessage>We found nothing here:(</ContactsMessage>
+        )}
+
+        {state === 'error' && (
+          <ContactsMessage>We found nothing here:(</ContactsMessage>
+        )}
+
+        {/* {selectedContacts.length ? (
         (selectedContacts ?? contacts).map(contact => (
           <ContactListItem
             key={contact.id}
@@ -53,7 +92,8 @@ export function ContactList() {
       ) : (
         <ContactsMessage>We found nothing here:(</ContactsMessage>
       )} */}
-    </ContactsList>
+      </ContactsList>
+    </>
   );
 }
 

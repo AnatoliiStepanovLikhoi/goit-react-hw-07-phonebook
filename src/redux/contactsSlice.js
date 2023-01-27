@@ -5,31 +5,42 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { contactsInitialState } from './contactsInitState';
 import { STATUS } from 'constants/statusConstants';
+import { contactsAsyncThunk } from 'redux/contactsOperations';
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
   reducers: {
-    contactsLoadingAction: state => {
+    // contactsLoadingAction: state => {
+    //   state.status = STATUS.loading;
+    // },
+    // contactsSuccessAction: (state, { payload }) => {
+    //   state.status = STATUS.success;
+    //   state.contacts = payload;
+    // },
+    // contactsErrorAction: state => {
+    //   state.status = STATUS.error;
+    // },
+  },
+  extraReducers: {
+    [contactsAsyncThunk.pending]: state => {
       state.status = STATUS.loading;
     },
-
-    contactsSuccessAction: (state, { payload }) => {
+    [contactsAsyncThunk.fulfilled]: (state, { payload }) => {
       state.status = STATUS.success;
       state.contacts = payload;
     },
-
-    contactsErrorAction: state => {
+    [contactsAsyncThunk.rejected]: state => {
       state.status = STATUS.error;
     },
   },
 });
 
-export const {
-  contactsLoadingAction,
-  contactsErrorAction,
-  contactsSuccessAction,
-} = contactsSlice.actions;
+// export const {
+//   contactsLoadingAction,
+//   contactsErrorAction,
+//   contactsSuccessAction,
+// } = contactsSlice.actions;
 
 export const contactsReducer = contactsSlice.reducer;
 
