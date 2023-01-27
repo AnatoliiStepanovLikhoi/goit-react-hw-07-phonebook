@@ -6,7 +6,7 @@ import { ContactsList, ContactsMessage } from './ContactList.styled';
 import { Loader } from 'components/Loader/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { getContacts, getFilter, getStatus } from 'redux/selectors';
 import { contactsAsyncThunk } from 'redux/contactsOperations';
@@ -30,8 +30,9 @@ export function ContactList() {
 
   // console.log(state === 'loading');
 
-  const selectedContacts = contacts?.filter(({ name }) =>
-    name.toLowerCase().includes(filter)
+  const selectedContacts = useMemo(
+    () => contacts?.filter(({ name }) => name.toLowerCase().includes(filter)),
+    [contacts, filter]
   );
 
   // const selectedContacts = (() => {
