@@ -5,7 +5,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { contactsInitialState } from './contactsInitState';
 import { STATUS } from 'constants/statusConstants';
-import { contactsAsyncThunk } from 'redux/contactsOperations';
+import {
+  contactsAsyncThunk,
+  deleteContactAsyncThunk,
+  addContactAsyncThunk,
+} from 'redux/contactsOperations';
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -27,11 +31,34 @@ const contactsSlice = createSlice({
       state.status = STATUS.loading;
     },
     [contactsAsyncThunk.fulfilled]: (state, { payload }) => {
+      console.log(payload);
       state.status = STATUS.success;
       state.contacts = payload;
     },
     [contactsAsyncThunk.rejected]: state => {
       state.status = STATUS.error;
+    },
+    [deleteContactAsyncThunk.pending]: state => {
+      state.status = STATUS.loading;
+    },
+    [deleteContactAsyncThunk.fulfilled]: (state, { payload }) => {
+      state.status = STATUS.success;
+      const index = state.contacts.findIndex(
+        contact => contact.id === payload.id
+      );
+      state.contacts.splice(index, 1);
+    },
+    [deleteContactAsyncThunk.rejected]: state => {
+      state.status = STATUS.error;
+    },
+    [addContactAsyncThunk.fulfilled]: (state, { payload }) => {
+      state.contacts.push(payload);
+    },
+    [addContactAsyncThunk.rejected]: state => {
+      state.status = STATUS.error;
+    },
+    [addContactAsyncThunk.pending]: state => {
+      state.status = STATUS.loading;
     },
   },
 });

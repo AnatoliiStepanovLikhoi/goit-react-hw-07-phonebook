@@ -23,15 +23,19 @@ export function ContactList() {
 
   // const { contacts, onContactDelete } = props;
 
-  console.log(filter);
+  // console.log(filter);
 
   // const contacts = useSelector(getContacts);
   // const filter = useSelector(getFilter);
 
   // console.log(state === 'loading');
 
+  const selectedContacts = contacts?.filter(({ name }) =>
+    name.toLowerCase().includes(filter)
+  );
+
   // const selectedContacts = (() => {
-  //   if (!contacts) return;
+  //   if (!contacts ) return;
 
   //   return contacts.filter(({ name }) =>
   //     // console.log(name.toLowerCase().includes(filter))
@@ -49,7 +53,7 @@ export function ContactList() {
           <Loader />
         )}
 
-        {/* {selectedContacts?.length ? (
+        {selectedContacts?.length ? (
           (selectedContacts ?? contacts).map(contact => (
             <ContactListItem
               key={contact.id}
@@ -63,9 +67,9 @@ export function ContactList() {
           <Loader />
         ) : (
           <ContactsMessage>Empty phonebook</ContactsMessage>
-        )} */}
+        )}
 
-        {contacts?.length ? (
+        {/* {contacts?.length ? (
           contacts.map(contact => (
             <ContactListItem
               key={contact.id}
@@ -75,7 +79,7 @@ export function ContactList() {
           ))
         ) : (
           <ContactsMessage>We found nothing here:(</ContactsMessage>
-        )}
+        )} */}
 
         {state === 'error' && (
           <ContactsMessage>We found nothing here:(</ContactsMessage>
