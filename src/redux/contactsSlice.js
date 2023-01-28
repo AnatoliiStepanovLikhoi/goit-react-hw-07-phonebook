@@ -17,7 +17,6 @@ const extraActions = [
 const getActions = type => extraActions.map(action => action[type]);
 
 const fetchContactsSuccessReducer = (state, { payload }) => {
-  state.status = STATUS.success;
   state.contacts = payload;
 };
 
@@ -26,7 +25,6 @@ const addContactSuccessReducer = (state, { payload }) => {
 };
 
 const deleteContactSuccessReducer = (state, { payload }) => {
-  state.status = STATUS.success;
   const index = state.contacts.findIndex(contact => contact.id === payload.id);
   state.contacts.splice(index, 1);
 };
