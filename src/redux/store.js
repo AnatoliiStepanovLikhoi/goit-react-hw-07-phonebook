@@ -1,17 +1,3 @@
-// import { contactsSlice } from './contactsSlice';
-// import { persistStore } from 'redux-persist';
-
-// import {
-//   persistStore,
-//   // persistReducer,
-//   FLUSH,
-//   REHYDRATE,
-//   PAUSE,
-//   PERSIST,
-//   PURGE,
-//   REGISTER,
-// } from 'redux-persist';
-
 import { configureStore } from '@reduxjs/toolkit';
 import { contactsReducer } from 'redux/contactsSlice';
 import { filterReducer } from './filterSlice';

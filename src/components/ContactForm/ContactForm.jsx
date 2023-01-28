@@ -1,20 +1,15 @@
-// import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { capitalizeFirstLetters } from '../Utils/capitalizeFirstLetters';
+import { addContactAsyncThunk } from '../../redux/contactsOperations';
 
 import { Form, Label, Input, AddContactButton } from './ContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-// import { addContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { getContacts, getStatus } from 'redux/selectors';
+import { Notify } from 'notiflix';
 
 export const ContactForm = () => {
   const contacts = useSelector(getContacts);
-
-  // const [name, setName] = useState('');
-  // const [number, setNumber] = useState('');
-
-  // console.log(contacts);
+  const state = useSelector(getStatus);
 
   const dispatch = useDispatch();
 
@@ -29,40 +24,38 @@ export const ContactForm = () => {
     );
   };
 
-  // const onSubmit = event => {
-  //   event.preventDefault();
+  const onSubmit = event => {
+    event.preventDefault();
 
-  //   const data = new FormData(event.target);
+    const data = new FormData(event.target);
 
-  //   const formObject = Object.fromEntries(data.entries());
+    const formObject = Object.fromEntries(data.entries());
 
-  //   const { name: inputName, number: inputNumber } = formObject;
+    const { name: inputName, number: inputNumber } = formObject;
 
-  //   const capitalName = capitalizeFirstLetters(inputName);
+    const capitalName = capitalizeFirstLetters(inputName);
 
-  //   if (checkTheSameName(inputName)) {
-  //     alert(`Sorry, ${capitalName} has already added!`);
-  //     return;
-  //   }
+    if (checkTheSameName(inputName)) {
+      alert(`Sorry, ${capitalName} has already added!`);
+      return;
+    }
 
-  //   dispatch(
-  //     addContact({ name: capitalName, number: inputNumber, id: nanoid() })
-  //   );
+    Notify.success('Contact added!');
 
-  //   // setName(inputName);
-  //   // setNumber(inputNumber);
+    dispatch(addContactAsyncThunk({ name: capitalName, phone: inputNumber }));
 
-  //   event.currentTarget.reset();
-  // };
+    // setName(inputName);
+    // setNumber(inputNumber);
+
+    event.currentTarget.reset();
+  };
 
   // const onInputChange = event => {
   //   const { name: nameItem, number: numberItem } = event.target;
   // };
 
   return (
-    <Form
-    // onSubmit={onSubmit}
-    >
+    <Form onSubmit={onSubmit}>
       <Label>
         Name
         <Input
@@ -88,7 +81,10 @@ export const ContactForm = () => {
           // onChange={onInputChange}
         />
       </Label>
-      <AddContactButton type="submit">Add contacts</AddContactButton>
+      <AddContactButton type="submit" disabled={state === 'loading'}>
+        {/* {state === 'loading' ? 'Adding...' : 'Add contacts'} */}
+        Add contacts
+      </AddContactButton>
     </Form>
   );
 };

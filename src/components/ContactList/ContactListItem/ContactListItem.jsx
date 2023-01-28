@@ -1,5 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { capitalizeFirstLetters } from '../../Utils/capitalizeFirstLetters';
+import { Notify } from 'notiflix';
 
 import {
   Icon,
@@ -21,7 +22,10 @@ export function ContactListItem(props) {
     // onContactDelete,
   } = props;
 
-  const handleDelete = () => dispatch(deleteContactAsyncThunk(id));
+  const handleDelete = id => {
+    Notify.warning('Contacts has deleted');
+    return dispatch(deleteContactAsyncThunk(id));
+  };
 
   const capitalName = capitalizeFirstLetters(name);
 
@@ -31,7 +35,12 @@ export function ContactListItem(props) {
       <ContactText>
         {capitalName}: {phone}
       </ContactText>
-      <RemoveContactButton type="button" onClick={handleDelete}>
+      <RemoveContactButton
+        type="button"
+        onClick={() => handleDelete(id)}
+        disabled={state === 'loading'}
+      >
+        {/* {state === 'loading' ? 'Removing' : 'Remove'} */}
         Remove
       </RemoveContactButton>
     </ListItem>

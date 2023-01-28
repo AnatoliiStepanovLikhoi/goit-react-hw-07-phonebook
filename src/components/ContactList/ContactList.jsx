@@ -1,5 +1,3 @@
-// import { Component } from 'react';
-// import { PropTypes } from 'prop-types';
 import { ContactListItem } from './ContactListItem/ContactListItem';
 
 import { ContactsList, ContactsMessage } from './ContactList.styled';
@@ -20,15 +18,6 @@ export function ContactList() {
   useEffect(() => {
     dispatch(contactsAsyncThunk());
   }, [dispatch]);
-
-  // const { contacts, onContactDelete } = props;
-
-  // console.log(filter);
-
-  // const contacts = useSelector(getContacts);
-  // const filter = useSelector(getFilter);
-
-  // console.log(state === 'loading');
 
   const selectedContacts = useMemo(
     () => contacts?.filter(({ name }) => name.toLowerCase().includes(filter)),
@@ -56,11 +45,7 @@ export function ContactList() {
 
         {selectedContacts?.length ? (
           (selectedContacts ?? contacts).map(contact => (
-            <ContactListItem
-              key={contact.id}
-              contactInfo={contact}
-              // onContactDelete={onContactDelete}
-            />
+            <ContactListItem key={contact.id} contactInfo={contact} />
           ))
         ) : filter ? (
           <ContactsMessage>We found nothing here:(</ContactsMessage>
@@ -70,45 +55,12 @@ export function ContactList() {
           <ContactsMessage>Empty phonebook</ContactsMessage>
         )}
 
-        {/* {contacts?.length ? (
-          contacts.map(contact => (
-            <ContactListItem
-              key={contact.id}
-              contactInfo={contact}
-              // onContactDelete={onContactDelete}
-            />
-          ))
-        ) : (
-          <ContactsMessage>We found nothing here:(</ContactsMessage>
-        )} */}
-
         {state === 'error' && (
-          <ContactsMessage>We found nothing here:(</ContactsMessage>
+          <ContactsMessage>
+            Something went wrong, try again later:(
+          </ContactsMessage>
         )}
-
-        {/* {selectedContacts.length ? (
-        (selectedContacts ?? contacts).map(contact => (
-          <ContactListItem
-            key={contact.id}
-            contactInfo={contact}
-            // onContactDelete={onContactDelete}
-          />
-        ))
-      ) : (
-        <ContactsMessage>We found nothing here:(</ContactsMessage>
-      )} */}
       </ContactsList>
     </>
   );
 }
-
-// ContactList.propTypes = {
-//   contacts: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//       id: PropTypes.string.isRequired,
-//     })
-//   ),
-//   onContactDelete: PropTypes.func.isRequired,
-// };

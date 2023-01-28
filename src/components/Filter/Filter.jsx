@@ -1,6 +1,7 @@
-// import { PropTypes } from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useMemo } from 'react';
 import { filterContact } from '../../redux/filterSlice';
+import debounce from 'lodash.debounce';
 
 import { Label, Input } from '../ContactForm/ContactForm.styled';
 
@@ -10,15 +11,20 @@ export function Filter() {
   const onFilterInput = event => {
     const filterInputValue = event.target.value.toLocaleLowerCase();
 
-    // console.log(filterInputValue);
-
     dispatch(filterContact(filterInputValue));
   };
+
+  const debouncedFilterHandler = useMemo(
+    () => debounce(onFilterInput, 500),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
   return (
     <Label>
       Filter contacts by name
       <Input
-        onInput={onFilterInput}
+        onInput={debouncedFilterHandler}
         name="search"
         placeholder="Search"
         // value={value}
@@ -26,7 +32,3 @@ export function Filter() {
     </Label>
   );
 }
-
-// Filter.protoTypes = {
-//   onFilterInput: PropTypes.func.isRequired,
-// };
