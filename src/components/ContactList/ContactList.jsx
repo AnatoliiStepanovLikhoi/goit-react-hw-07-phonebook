@@ -6,14 +6,14 @@ import { Loader } from 'components/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo } from 'react';
 
-import { getContacts, getFilter, getStatus } from 'redux/selectors';
+import { selectContacts, selectFilter, selectStatus } from 'redux/selectors';
 import { contactsAsyncThunk } from 'redux/contactsOperations';
 
 export function ContactList() {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const state = useSelector(getStatus);
-  const filter = useSelector(getFilter);
+  const contacts = useSelector(selectContacts);
+  const state = useSelector(selectStatus);
+  const filter = useSelector(selectFilter);
 
   useEffect(() => {
     dispatch(contactsAsyncThunk());

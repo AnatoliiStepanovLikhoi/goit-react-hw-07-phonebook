@@ -9,11 +9,11 @@ import {
   RemoveContactButton,
 } from './ContactListItem.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStatus } from 'redux/selectors';
+import { selectStatus } from 'redux/selectors';
 import { deleteContactAsyncThunk } from 'redux/contactsOperations';
 
 export function ContactListItem(props) {
-  const state = useSelector(getStatus);
+  const state = useSelector(selectStatus);
 
   const dispatch = useDispatch();
 
